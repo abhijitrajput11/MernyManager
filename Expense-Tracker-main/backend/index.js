@@ -30,14 +30,15 @@ app.use("/transaction",transactionRouter)
 
 //port
 
-const PORT = 8080 || process.env.port
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT,async()=>{
     try {
         await connection
         console.log(`server is running in port ${PORT}`)
+        console.log("MongoDB connected successfully")
     } catch (error) {
-        console.log("something error occurs")
+        console.error("Database connection failed:", error.message)
+        process.exit(1)
     }
- 
 })

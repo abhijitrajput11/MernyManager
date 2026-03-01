@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Select, Input, message, Table, DatePicker } from "antd"
+import { Modal, Form, Select, Input, InputNumber, message, Table, DatePicker } from "antd"
 import moment from "moment"
 import { UnorderedListOutlined, AreaChartOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import axios from 'axios'
@@ -165,7 +165,7 @@ const HomePage = () => {
             <Select.Option value="365">Last 1 Year</Select.Option>
             <Select.Option value="custom">custom</Select.Option>
           </Select>
-          {frequency == "custom" && <RangePicker value={selectedDate} onChange={(values) => setselectedDate(values)}></RangePicker>}
+          {frequency === "custom" && <RangePicker value={selectedDate} onChange={(values) => setselectedDate(values)}></RangePicker>}
         </div>
         <div>
           <h6 style={{fontWeight:"bolder"}}>Select Type</h6>
@@ -174,34 +174,62 @@ const HomePage = () => {
             <Select.Option value="income">Income</Select.Option>
             <Select.Option value="expense">Expense</Select.Option>
           </Select>
-          {frequency == "custom" && <RangePicker value={selectedDate} onChange={(values) => setselectedDate(values)}></RangePicker>}
+          {frequency === "custom" && <RangePicker value={selectedDate} onChange={(values) => setselectedDate(values)}></RangePicker>}
         </div>
         <div className='switch-icons'>
-          <UnorderedListOutlined className={`mx-2 ${viewdata == "table" ? "active-icon" : "inactive-icon"}`} onClick={() => setviewdata("table")}></UnorderedListOutlined>
-          <AreaChartOutlined className={`mx-2 ${viewdata == "analytics" ? "active-icon" : "inactive-icon"}`} onClick={() => setviewdata("analytics")}></AreaChartOutlined>
+          <UnorderedListOutlined className={`mx-2 ${viewdata === "table" ? "active-icon" : "inactive-icon"}`} onClick={() => setviewdata("table")}></UnorderedListOutlined>
+          <AreaChartOutlined className={`mx-2 ${viewdata === "analytics" ? "active-icon" : "inactive-icon"}`} onClick={() => setviewdata("analytics")}></AreaChartOutlined>
         </div>
         <div>
           <button className='btn btn-dark' onClick={() => setshowModel(true)}>Add New</button>
         </div>
       </div>
       <div className='contents'>
-        {viewdata == "table" ? <Table columns={colums} dataSource={alltranscrion} className='table'/> : <Analytics alltransaction={alltranscrion}></Analytics>}
+        {viewdata === "table" ? <Table columns={colums} dataSource={alltranscrion} className='table'/> : <Analytics alltransaction={alltranscrion}></Analytics>}
 
       </div>
       <Modal title={editable ? "Edit Transaction" : "Add Transaction"} open={showModel} onCancel={() => setshowModel(false)}
         footer={false}>
         <Form layout="vertical" onFinish={handleSubmit} initialValues={editable}>
-          <Form.Item label="Amount" name="amount">
-            <Input type="text" />
+          <Form.Item label="Amount" name="amount" rules={[{ required: true}]}>
+            <InputNumber
+              style={{ width: "100%" }}
+              min={0}
+              step={1}
+              controls={false}
+              parser={(value) => (value ? value.replace(/[^0-9]/g, "") : "")}
+              onKeyDown={(e) => {
+                const allowedKeys = [
+                  "Backspace",
+                  "Delete",
+                  "Tab",
+                  "Enter",
+                  "Escape",
+                  "ArrowLeft",
+                  "ArrowRight",
+                  "ArrowUp",
+                  "ArrowDown",
+                  "Home",
+                  "End",
+                ];
+                if (allowedKeys.includes(e.key)) return;
+                if (e.ctrlKey || e.metaKey) return;
+                if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+              }}
+              onPaste={(e) => {
+                const text = e.clipboardData.getData("text");
+                if (!/^[0-9]*$/.test(text)) e.preventDefault();
+              }}
+            />
           </Form.Item>
           <Form.Item label="Type" name="type">
-            <Select>
+            <Select required>
               <Select.Option value="income">Income</Select.Option>
               <Select.Option value="expense">Expense</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item label="Category" name="category">
-            <Select>
+            <Select required>
               <Select.Option value="salary">Salary</Select.Option>
               <Select.Option value="tip">Tip</Select.Option>
               <Select.Option value="project">Project</Select.Option>
@@ -214,13 +242,13 @@ const HomePage = () => {
             </Select>
           </Form.Item>
           <Form.Item label="Date" name="date">
-            <Input type="date" />
+            <Input type="date" required />
           </Form.Item>
           <Form.Item label="Reference" name="refrence">
-            <Input type="text" />
+            <Input type="text" required />
           </Form.Item>
           <Form.Item label="Description" name="description">
-            <Input type="text" />
+            <Input type="text" required />
           </Form.Item>
           <div className='d-flex justify-content-end'>
             <button className='btn btn-primary' type='submit'>{" "}SAVE</button>

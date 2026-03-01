@@ -12,7 +12,6 @@ const transactionSchema = new mongoose.Schema({
     type:{
         type:String,
         required:[true,"type is required"]
-
     },
     category: {
         type: String,
