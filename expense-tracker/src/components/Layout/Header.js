@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MenuOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons'
+import { useAuth } from '../../context/AuthContext'
 import './Header.css'
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const handlelogout = useCallback(() => {
-    localStorage.removeItem("user")
+  const handlelogout = () => {
+    logout()
     navigate("/login")
-  }, [navigate])
+  }
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)

@@ -5,16 +5,22 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
 
-  useEffect(() => {
-    // Check if the user is authenticated when the component mounts
-    if (localStorage.getItem("user")) {
-      setAuthenticated(true);
-    }
-  }, [authenticated]);
+function AppContent() {
+  const { user, loading, isAuthenticated } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -23,10 +29,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Use the authenticated state to determine which page to show */}
+        {/* Use authenticated state to determine which page to show */}
         <Route
           path="/"
-          element={authenticated ? <HomePage /> : <Navigate to="/login"  replace/>}
+          element={isAuthenticated ? <HomePage /> : <Navigate to="/login"  replace/>}
         />
       </Routes>
       <Footer />

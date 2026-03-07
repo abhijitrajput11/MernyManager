@@ -4,6 +4,7 @@ import { url } from "../url.js";
 import axios from "axios";
 import Spinner from '../components/Spinner.jsx';
 import { message } from "antd";
+import { useAuth } from '../context/AuthContext';
 import './Login.css'; // Import the crystal styles here
 
 const Login = () => {
@@ -11,10 +12,10 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Mouse move effect for the "Krystal" tilt
+  // Mouse move effect for "Krystal" tilt
   useEffect(() => {
     const handleMouseMove = (e) => {
       setCoords({
@@ -26,12 +27,12 @@ const Login = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Redirect if already authenticated
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      navigate("/");
+    if (isAuthenticated && window.location.pathname === '/login') {
+      navigate('/');
     }
-  }, [navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,22 +45,29 @@ const Login = () => {
         password
       });
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...response.data.user, password: "" })
-      );
-
-      message.success("Login Successfully");
-      navigate("/");
+      // Handle both response formats (with or without success field)
+      if (response.data.user || response.data.mesg === "login successfully") {
+        const userData = response.data.user || response.data.user;
+        login(userData);
+        
+        message.success("Login Successfully");
+        
+        // Force a small delay to ensure localStorage is set
+        setTimeout(() => {
+          navigate("/");
+        }, 100);
+      } else {
+        message.error(response.data.message || response.data.mesg || "Login failed");
+      }
 
     } catch (error) {
-      message.error(error.response?.data?.message || "Login failed");
+      message.error(error.response?.data?.message || error.response?.data?.mesg || "Login failed");
     } finally {
       setLoading(false);
     }
   };
 
-  if (localStorage.getItem("user")) return null;
+  if (isAuthenticated) return null;
 
   return (
     <>
