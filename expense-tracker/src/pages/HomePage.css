@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding-block: 20px;
 }
 
 /* Glow Background */
@@ -42,8 +42,8 @@
 }
 
 .filters-section {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(25px) saturate(180%);
+  /* background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px) saturate(180%); */
   border-left: 1px solid rgba(255, 255, 255, 0.3);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -366,10 +366,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .homepage-container {
-    padding: 15px 0;
-  }
-  
   .filters-section {
     padding: 25px 20px;
     margin-bottom: 20px;

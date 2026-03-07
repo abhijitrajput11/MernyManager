@@ -5,10 +5,10 @@ const Footer = () => {
   return (
     <>
       {/* Glow Background */}
-      <div className="footer-glow-background">
+      {/* <div className="footer-glow-background">
         <div className="footer-main-glow"></div>
         <div className="footer-secondary-glow"></div>
-      </div>
+      </div> */}
 
       <footer className="glass-footer">
         <div className="footer-container">
