@@ -1,0 +1,146 @@
+/* Footer Glass Morphism Styles */
+.glass-footer {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px) saturate(180%);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  margin: 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+.copyright-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  margin: 0 20px;
+}
+
+.footer-brand {
+  flex: 1;
+  min-width: 200px;
+  text-align: right;
+}
+
+.brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #bc13fe, #8e2de2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 25px 15px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .footer-text {
+    min-width: auto;
+    text-align: center;
+  }
+
+  .copyright-text {
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .footer-divider {
+    width: 60px;
+    height: 1px;
+    margin: 15px auto;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+  }
+
+  .footer-brand {
+    min-width: auto;
+    text-align: center;
+  }
+
+  .brand-text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 20px 10px;
+  }
+
+  .copyright-text {
+    font-size: 12px;
+  }
+
+  .brand-text {
+    font-size: 13px;
+  }
+
+  .footer-divider {
+    width: 40px;
+  }
+
+  .footer-main-glow {
+    width: 300px;
+    height: 300px;
+    filter: blur(40px);
+  }
+
+  .footer-secondary-glow {
+    width: 250px;
+    height: 250px;
+    filter: blur(35px);
+  }
+}

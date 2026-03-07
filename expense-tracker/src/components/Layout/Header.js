@@ -1,51 +1,68 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { MenuOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons'
+import './Header.css'
 
 const Header = () => {
-  const [loginuser,setloginuser]=useState("")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const handlelogout  = ()=>{
+  const handlelogout = useCallback(() => {
     localStorage.removeItem("user")
-    setloginuser("")
     navigate("/login")
+  }, [navigate])
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen)
   }
-  // useEffect(()=>{
-  //  const user=JSON.parse(localStorage.getItem("user"))
-  //  if(user)
-  //  {
-  //   setloginuser(user.name)
-  //  }
-  // },[])
 
-  return <>
-  <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark p-3">
-  <div className="container-fluid">
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon">
-      </span></button>
-    <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a className="navbar-brand" href="/">Expense Tracker</a>
-      {user && (
-      <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-        <a className="nav-item">
-          <a className="nav-link active m-2" aria-current="page" href="#">{user.name}</a>
-        </a>
-      </ul>)}
+  return (
+    <>
+      {/* Glow Background */}
+      <div className="header-glow-background">
+        <div className="header-main-glow"></div>
+        <div className="header-secondary-glow"></div>
+      </div>
 
-      {user &&( 
-       <a className="nav-item">
-        <button className="btn btn-danger" aria-current="page" href="/login" onClick={handlelogout}>Logout</button>
-      </a>)}
-      
-        
-    </div>
-  </div>
-</nav>
+      <header className="glass-header">
+        <div className="header-container">
+          {/* Logo */}
+          <div className="header-logo">
+            <button className="logo-link" onClick={() => navigate("/")}>
+              <span className="logo-text">Merny Manager</span>
+            </button>
+          </div>
 
-  </>;
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="mobile-menu-toggle" 
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            <MenuOutlined />
+          </button>
+
+          {/* Navigation */}
+          <nav className={`header-nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+            {user && (
+              <div className="nav-items">
+                <div className="user-info">
+                  <UserOutlined />
+                  <span className="user-name">{user.name}</span>
+                </div>
+                <button className="logout-btn" onClick={handlelogout}>
+                  <LogoutOutlined />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </nav>
+        </div>
+      </header>
+    </>
+  )
 }
 
 export default Header

@@ -1,10 +1,31 @@
 import React from 'react'
+import './Footer.css'
 
 const Footer = () => {
   return (
-    <div className='bg-dark text-light' style={{marginTop:"10%",padding:"2%"}}>
-        <h6 className='text-center'>All rights reserved &copy; Abhijit Rajput</h6>
-    </div>
+    <>
+      {/* Glow Background */}
+      <div className="footer-glow-background">
+        <div className="footer-main-glow"></div>
+        <div className="footer-secondary-glow"></div>
+      </div>
+
+      <footer className="glass-footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-text">
+              <span className="copyright-text">
+                All rights reserved &copy; Abhijit Rajput
+              </span>
+            </div>
+            <div className="footer-divider"></div>
+            <div className="footer-brand">
+              <span className="brand-text">Merny Manager</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
   )
 }
 
